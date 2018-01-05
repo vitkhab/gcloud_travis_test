@@ -17,6 +17,7 @@ install:
 - unzip packer_1.1.3_linux_amd64.zip
 script:
 - packer build -var 'proj_id=docker-181710' -var 's_im_fam=ubuntu-1604-lts' ubuntu16.json
-- cat output.json
-- gcloud compute instances create "travis-reddit-app" --image "reddit-base-1515192972"
-- ansible-playbook -u root -i "`gcloud compute instances list --filter="name=travis-reddit-app" --format='value(EXTERNAL_IP)'`," packer_deploy.yml
+- export IMAGE=`jq -r '.builds[0].artifact_id' output.json`
+- gcloud compute instances create "travis-reddit-app" --image "$IMAGE" --zone "europe-west1-b"
+- export EXTERNAL_IP=`gcloud compute instances list --filter="name=travis-reddit-app" --format='value(EXTERNAL_IP)'`
+- ansible-playbook -u root -i "$EXTERNAL_IP," packer_deploy.yml
