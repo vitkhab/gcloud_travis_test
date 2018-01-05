@@ -10,7 +10,6 @@
     {
     "type": "googlecompute",
     "image_description": "baked whith ruby and mongo",
-    "account_file": "credentials.json",
     "project_id": "{{user `proj_id`}}",
     "image_name": "reddit-base-{{timestamp}}",
     "image_family": "reddit-base",
