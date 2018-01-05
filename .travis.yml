@@ -23,3 +23,7 @@ script:
 - export EXTERNAL_IP=`gcloud compute instances list --filter="name=travis-reddit-app" --format='value(EXTERNAL_IP)' --project docker-181710`
 - echo $EXTERNAL_IP
 - ansible-playbook -u root -i "$EXTERNAL_IP," packer_deploy.yml
+- curl -s -o /dev/null -I -w "%{http_code}" --retry 10 --retry-delay 10 $EXTERNAL_IP:9292
+after_script:
+- gcloud compute images delete -q $IMAGE
+- gcloud compute instances delete -q travis-reddit-app
