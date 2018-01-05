@@ -1,2 +1,4 @@
 venv
 *.retry
+credentials.json
+variables.json
