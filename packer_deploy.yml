@@ -1,0 +1,21 @@
+# Setup and configure ruby things for reddit app
+- name: "Reddit App: Configure app environment"
+  hosts: all
+  gather_facts: no
+  become: yes
+
+  tasks:
+  - name: Install ruby and rubygems and required packages
+    git:
+      repo: 'https://github.com/Otus-DevOps-2017-11/reddit.git'
+      dest: /home/appuser/reddit
+
+  - name: Install Ruby bundler
+    bundler:
+      state: present
+      chdir: /home/appuser/reddit
+
+  - name: Install Ruby bundler
+    shell: puma -d
+    args:
+      chdir: /home/appuser/reddit
