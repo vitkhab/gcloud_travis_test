@@ -32,5 +32,12 @@
       "type": "ansible",
       "playbook_file": "packer_db.yml"
     }
+  ],
+  "post-processors": [
+    {
+      "type": "manifest",
+      "output": "output.json",
+      "strip_path": true
+    }
   ]
 }
