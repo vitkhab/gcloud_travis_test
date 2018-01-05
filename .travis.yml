@@ -4,7 +4,7 @@ cache:
   directories:
   - "$HOME/google-cloud-sdk/"
 env:
-- PATH=$PATH:${HOME}/google-cloud-sdk/bin CLOUDSDK_CORE_DISABLE_PROMPTS=1 GOOGLE_APPLICATION_CREDENTIALS="/home/travis/credentials.json"
+- PATH=$PATH:${HOME}/google-cloud-sdk/bin CLOUDSDK_CORE_DISABLE_PROMPTS=1 GOOGLE_APPLICATION_CREDENTIALS="${HOME}/credentials.json"
 before_install:
 - openssl aes-256-cbc -K $encrypted_e2c84e1c574e_key -iv $encrypted_e2c84e1c574e_iv
   -in credentials.json.enc -out credentials.json -d
