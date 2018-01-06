@@ -10,7 +10,7 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_e2c84e1c574e_key -iv $encrypted_e2c84e1c574e_iv
   -in secrets.zip.enc -out secrets.zip -d
 - unzip secrets.zip
-- if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash;
+- if [ ! -d ${HOME}/google-cloud-sdk/bin ]; then curl https://sdk.cloud.google.com | bash;
   fi
 - gcloud auth activate-service-account --key-file credentials.json
 install:
