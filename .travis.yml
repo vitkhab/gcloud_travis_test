@@ -26,7 +26,7 @@ script:
   --format='value(EXTERNAL_IP)' --project docker-181710`
 - echo $EXTERNAL_IP
 - ansible-playbook -i "$EXTERNAL_IP," packer_deploy.yml
-- curl -s -o /dev/null -I -w "%{http_code}" --retry 10 --retry-delay 10 $EXTERNAL_IP:9292
+- sleep 5 && curl -s -o /dev/null -I -w "%{http_code}" --retry 10 --retry-delay 10 $EXTERNAL_IP:9292
 after_script:
 - gcloud compute images delete -q $IMAGE --project docker-181710
 - gcloud compute instances delete -q travis-reddit-app --zone "europe-west1-b" --project
