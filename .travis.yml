@@ -11,7 +11,7 @@ before_install:
   -in secrets.zip.enc -out secrets.zip -d
 - unzip secrets.zip
 - gcloud version || true
-- if [ ! -d "${HOME}/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; curl https://sdk.cloud.google.com | bash; fi
+- if [ ! -d "${HOME}/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; curl https://sdk.cloud.google.com | bash > /dev/null; fi
 - gcloud version
 - gcloud auth activate-service-account --key-file credentials.json
 install:
