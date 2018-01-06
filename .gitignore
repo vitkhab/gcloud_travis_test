@@ -1,4 +1,6 @@
 venv
 *.retry
 credentials.json
+google_compute
+secrets.zip
 variables.json

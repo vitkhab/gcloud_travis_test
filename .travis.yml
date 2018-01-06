@@ -7,7 +7,7 @@ env:
 - PATH=$PATH:${HOME}/google-cloud-sdk/bin CLOUDSDK_CORE_DISABLE_PROMPTS=1 GOOGLE_APPLICATION_CREDENTIALS="credentials.json"
 before_install:
 - openssl aes-256-cbc -K $encrypted_e2c84e1c574e_key -iv $encrypted_e2c84e1c574e_iv
-  -in credentials.json.enc -out credentials.json -d
+  -in secrets.zip.enc -out secrets.zip -d
 - if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash;
   fi
 - gcloud auth activate-service-account --key-file credentials.json
@@ -19,11 +19,14 @@ script:
 - packer build -var 'proj_id=docker-181710' -var 's_im_fam=ubuntu-1604-lts' ubuntu16.json
 - export IMAGE=`jq -r '.builds[0].artifact_id' output.json`
 - echo $IMAGE
-- gcloud compute instances create "travis-reddit-app" --image "$IMAGE" --zone "europe-west1-b" --project docker-181710
-- export EXTERNAL_IP=`gcloud compute instances list --filter="name=travis-reddit-app" --format='value(EXTERNAL_IP)' --project docker-181710`
+- gcloud compute instances create "travis-reddit-app" --image "$IMAGE" --zone "europe-west1-b"
+  --project docker-181710
+- export EXTERNAL_IP=`gcloud compute instances list --filter="name=travis-reddit-app"
+  --format='value(EXTERNAL_IP)' --project docker-181710`
 - echo $EXTERNAL_IP
 - ansible-playbook -u root -i "$EXTERNAL_IP," packer_deploy.yml
 - curl -s -o /dev/null -I -w "%{http_code}" --retry 10 --retry-delay 10 $EXTERNAL_IP:9292
 after_script:
-- gcloud compute images delete -q $IMAGE
-- gcloud compute instances delete -q travis-reddit-app
+- gcloud compute images delete -q $IMAGE --project docker-181710
+- gcloud compute instances delete -q travis-reddit-app --zone "europe-west1-b" --project
+  docker-181710
